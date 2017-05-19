@@ -9,8 +9,8 @@ public class GameData : MonoBehaviour {
     //const
     public int basePoints = 150;
     public int lastLevel = 10;
-
-
+    [SerializeField]
+   // public string[] videos;
     public int currentLevel { get; set; }
     public int numberOfRightQuestions { get; set; }
     public Question currentQuestion { get; set; }

@@ -6,22 +6,84 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour {
 
+    public bool m_bFinish = false;
+    public int videoIndex;
 
     public GameObject player;
     public UIManager uiManager;
+    public MediaPlayerCtrl videoManager;
     public GameData gameData;
+    public GameObject prefabButton;
+    public RectTransform ParentPanel;
 
     void Start () {
+        videoIndex = 0;
+        videoManager.OnEnd += OnEnd;
+
+
+        
+        /*
+        //set the movie btns in runtime!
+        for (int i = 0; i < gameData.videos.Length; i++)
+        {
+            GameObject goButton = (GameObject)Instantiate(prefabButton);
+            goButton.transform.SetParent(ParentPanel, false);
+            goButton.transform.localScale = new Vector3(2, 1, 1);
+            Vector3 aux = goButton.transform.position;
+            Debug.Log(aux);
+            goButton.transform.position = new Vector3(aux.x,aux.y + i * -0.25f ,aux.z);
+
+            Button tempButton = goButton.GetComponent<Button>();
+            Text name = tempButton.GetComponentInChildren<Text>();
+            name.text = gameData.videos[i];
+            tempButton.onClick.AddListener(() => ButtonClicked(gameData.videos[i]));
+        }
+        */
+
     }
 	
 	// Update is called once per frame
 	void Update () {
+        /*
+        if (scrMedia.GetCurrentState() == MediaPlayerCtrl.MEDIAPLAYER_STATE.PLAYING)
+        {
+            if (GUI.Button(new Rect(200, 200, 100, 100), scrMedia.GetSeekPosition().ToString()))
+            {
+
+            }
+
+            if (GUI.Button(new Rect(200, 350, 100, 100), scrMedia.GetDuration().ToString()))
+            {
+
+            }
+
+            if (GUI.Button(new Rect(200, 450, 100, 100), scrMedia.GetVideoWidth().ToString()))
+            {
+
+            }
+
+            if (GUI.Button(new Rect(200, 550, 100, 100), scrMedia.GetVideoHeight().ToString()))
+            {
+
+            }
+        }
+        */
+
 
     }
+
+
+    void ButtonClicked(string movieName)
+    {
+
+        loadVideo(movieName);
+    }
+
 
     public void rotateScene(float degrees)
     {
         player.transform.Rotate(new Vector3(0, degrees, 0));
+        pause();
     }
 
     public void startGame()
@@ -124,4 +186,60 @@ public class GameManager : MonoBehaviour {
     {
         return gameData.gameScore.score;
     }
+
+
+
+//******** video manager **********
+
+    void OnEnd()
+    {
+        m_bFinish = true;
+    }
+
+    public void loadVideo(string name)
+    {
+        videoManager.Load(name);
+        play();
+        m_bFinish = false;
+    }
+
+    public void nextVideo()
+    {
+        //videoManager.Load(gameData.videos[videoIndex++ % gameData.videos.Length]);
+        m_bFinish = false;
+    }
+
+    public void play()
+    {
+        videoManager.Play();
+        m_bFinish = false;
+    }
+
+    public void stop()
+    {
+        videoManager.Stop();
+    }
+
+    public void pause()
+    {
+        videoManager.Pause();
+    }
+
+    public void unload()
+    {
+        videoManager.UnLoad();
+    }
+
+    public void seekTo(int amout)
+    {
+        videoManager.SeekTo(amout);
+    }
+
+
+
+
+
+
+
 }
+		
