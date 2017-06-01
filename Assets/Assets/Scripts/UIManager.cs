@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour {
     // Use this for initialization
 
     public GameManager gameManager;
-    public AudioListener audioListener; 
+
 
     //views
     public GameObject mainMneuPanel;
@@ -73,6 +73,7 @@ public class UIManager : MonoBehaviour {
     public void backButton(int degress)
     {
         genericBtn.Play();
+        gameManager.backgroundSound.volume = 1;
         gameManager.stop();
         gameManager.stopMetaphore();
         gameManager.rotateScene(degress);
@@ -81,18 +82,18 @@ public class UIManager : MonoBehaviour {
     public void muteSound()
     {
         genericBtn.Play();
-        if (!audioListener.enabled)
+        if (!gameManager.audioListener.enabled)
         {
             sound.sprite = soundOn;
             AudioListener.pause = false;
-            audioListener.enabled = true;
+            gameManager.audioListener.enabled = true;
             soundText.text = "Som on";
         }
         else
         {
             sound.sprite = soundOff;
             AudioListener.pause = true;
-            audioListener.enabled = false;
+            gameManager.audioListener.enabled = false;
             soundText.text = "Som off";
         }
     }

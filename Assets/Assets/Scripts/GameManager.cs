@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 
     public int numberOfRightQuestions;
 
+    public AudioListener audioListener;
     public GameObject player;
     public UIManager uiManager;
     public MediaPlayerCtrl videoManagerLearning;
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour {
         videoIndexMetaphore = 0;
         videoManagerLearning.OnEnd += OnEnd;
         videoManagerMetaphore.OnEnd += OnEndMetaphore;
+        backgroundSound.Play();
+        
 
     }
 
@@ -183,7 +186,7 @@ public class GameManager : MonoBehaviour {
 
     public void play()
     {
-        backgroundSound.mute = true;
+        backgroundSound.volume = 0;
         stopMetaphore();
         videoManagerLearning.Play();
         m_bFinishLearning = false;
@@ -191,14 +194,13 @@ public class GameManager : MonoBehaviour {
 
     public void stop()
     {
-        backgroundSound.mute = false;
         videoManagerLearning.Stop();
         m_bFinishLearning = true;
     }
 
     public void pause()
     {
-        backgroundSound.mute = false;
+        backgroundSound.volume = 1;
         videoManagerLearning.Pause();
     }
 
@@ -231,7 +233,7 @@ public class GameManager : MonoBehaviour {
 
     public void playMetaphore()
     {
-        backgroundSound.mute = true;
+        backgroundSound.volume = 0;
         stop();
         videoManagerMetaphore.Play();
         m_bFinishMetaphore = false;
@@ -239,14 +241,13 @@ public class GameManager : MonoBehaviour {
 
     public void stopMetaphore()
     {
-        backgroundSound.mute = false;
         videoManagerMetaphore.Stop();
         m_bFinishMetaphore = true;
     }
 
     public void pauseMetaphore()
     {
-        backgroundSound.mute = false;
+        backgroundSound.volume = 1;
         videoManagerMetaphore.Pause();
     }
 
